@@ -1,0 +1,8 @@
+/APIText
+/dockerAPI
+/__pycache__
+/*/__pycache__
+/config/keys.py
+/routes/__pycache__
+/models/__pycache__
+/schemas/__pycache__

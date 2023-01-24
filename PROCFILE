@@ -1,0 +1,2 @@
+railway run
+web: uvicorn app:app --reload

@@ -1,0 +1,9 @@
+#A docker-compose file. It is used to run the docker container.
+version: "3.9"
+services:
+  apidocker:
+    build: ./
+    ports:
+      - "8000:8000"
+    environment:
+      - TESSDATA_PREFIX=/code    
