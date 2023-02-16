@@ -46,8 +46,7 @@ async def submit_image(file: UploadFile = File(...),):
         texto = pytesseract.image_to_string(pic)
         tts = gTTS(text = str(texto), lang = 'es')
         tts.save(getcwd() + '/temp.mp3')
-    return FileResponse(getcwd() + '/temp.mp3', media_type="audio/mpeg")
-    #str({texto, id})
+    return str({texto, id})
 
 @text.post('/submit_more', response_model= dict(), tags=["Text"])
 async def submit_images(files: List[UploadFile]):
