@@ -14,8 +14,6 @@ from time import sleep
 
 pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
-tts = gTTS()
-
 text = APIRouter()
 
 @text.get('/test', response_model=str, tags=["Text"])
