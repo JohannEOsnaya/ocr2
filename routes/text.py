@@ -44,13 +44,12 @@ async def submit_image(file: UploadFile = File(...),):
     with Image.open(io.BytesIO(data)) as pic:
         texto = pytesseract.image_to_string(pic)
         tts = gTTS(text = str(texto), lang = 'es')
-        filename = os.getcwd() + '/temp.mp3'
-        tts.save(filename)
-        music = pyglet.media.load(filename, streaming = False)
+        tts.save(os.getcwd() + '/temp.mp3')
+        music = pyglet.media.load(os.getcwd() + '/temp.mp3', streaming = False)
         music.play()
 
         sleep(music.duration)
-        os.remove(filename)
+        os.remove(os.getcwd() + '/temp.mp3')
     return str({texto, id})
 
 @text.post('/submit_more', response_model= dict(), tags=["Text"])
