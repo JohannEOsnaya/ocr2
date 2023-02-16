@@ -26,7 +26,7 @@ def testing():
     texto = pytesseract.image_to_string(im)
     return texto
 
-@text.post('/submit', response_model= str, tags=["Text"])
+@text.post('/submit')
 async def submit_image(file: UploadFile = File(...),):
     """
     It takes an image file as input, and returns the text in the image as output
@@ -45,7 +45,8 @@ async def submit_image(file: UploadFile = File(...),):
         texto = pytesseract.image_to_string(pic)
         tts = gTTS(text = str(texto), lang = 'es')
         tts.save(getcwd() + '/temp.mp3')
-    return str({texto, id})
+    return FileResponse(getcwd() + '/temp.mp3', media_type="audio/mpeg")
+    #str({texto, id})
 
 @text.post('/submit_more', response_model= dict(), tags=["Text"])
 async def submit_images(files: List[UploadFile]):
