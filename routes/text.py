@@ -52,7 +52,7 @@ async def submit_image(file: UploadFile = File(...),):
         cleaned_text = cleaned_text.replace('\n', '')
         tts = gTTS(text = str(cleaned_text), lang = 'es')
         tts.save(getcwd() + '/temp.mp3')
-    return str({texto, id})
+    return str({cleaned_text, id})
 
 @text.post('/submit_more', response_model= dict(), tags=["Text"])
 async def submit_images(files: List[UploadFile]):
