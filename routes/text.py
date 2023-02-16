@@ -3,12 +3,18 @@ from PIL import Image
 from models.files import Files
 from pytesseract import pytesseract
 from config.db import conn
-from os import getcwd
+#from os import getcwd
+import os 
 from docs import tags_metadata
 import io
 from typing import List
+from gtts import gTTS
+import pyglet
+from time import sleep
 
 pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+
+tts = gTTS()
 
 text = APIRouter()
 
@@ -18,7 +24,7 @@ def testing():
     It takes an image, converts it to text, and returns the text
     :return: The text that is in the image.
     """
-    im = Image.open(getcwd()+'/Pruebame.png')
+    im = Image.open(os.getcwd()+'/Pruebame.png')
     texto = pytesseract.image_to_string(im)
     return texto
 
@@ -39,6 +45,14 @@ async def submit_image(file: UploadFile = File(...),):
     id = conn.local.testimage.insert_one(image).inserted_id
     with Image.open(io.BytesIO(data)) as pic:
         texto = pytesseract.image_to_string(pic)
+        tts = gTTS(text = str(texto), lang = 'es')
+        filename = os.getcwd() + 'temp.mp3'
+        tts.save(filename)
+        music = pyglet.media.load(filename, streaming = False)
+        music.play()
+
+        sleep(music.duration)
+        os.remove(filename)
     return str({texto, id})
 
 @text.post('/submit_more', response_model= dict(), tags=["Text"])
