@@ -44,7 +44,7 @@ async def submit_image(file: UploadFile = File(...),):
     with Image.open(io.BytesIO(data)) as pic:
         texto = pytesseract.image_to_string(pic)
         tts = gTTS(text = str(texto), lang = 'es')
-        filename = os.getcwd() + 'temp.mp3'
+        filename = os.getcwd() + '/temp.mp3'
         tts.save(filename)
         music = pyglet.media.load(filename, streaming = False)
         music.play()
