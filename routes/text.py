@@ -1,4 +1,4 @@
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, File, UploadFile, FileResponse
 from PIL import Image
 from models.files import Files
 from pytesseract import pytesseract
