@@ -9,7 +9,7 @@ from docs import tags_metadata
 import io
 from typing import List
 from gtts import gTTS
-import pyglet
+#import pyglet
 from time import sleep
 
 pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
@@ -45,11 +45,6 @@ async def submit_image(file: UploadFile = File(...),):
         texto = pytesseract.image_to_string(pic)
         tts = gTTS(text = str(texto), lang = 'es')
         tts.save(getcwd() + '/temp.mp3')
-        music = pyglet.media.load(getcwd() + '/temp.mp3', streaming = False)
-        music.play()
-
-        sleep(music.duration)
-        remove(getcwd() + '/temp.mp3')
     return str({texto, id})
 
 @text.post('/submit_more', response_model= dict(), tags=["Text"])
@@ -66,3 +61,7 @@ async def submit_images(files: List[UploadFile]):
         with Image.open(io.BytesIO(await file.read())) as pic:
             res[file.filename] = pytesseract.image_to_string(pic)
     return res
+
+@text.get("/play_audio")
+async def play_audio():
+    return FileResponse(getcwd() + '/temp.mp3', media_type="audio/mpeg")
