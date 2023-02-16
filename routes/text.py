@@ -26,7 +26,7 @@ def testing():
     texto = pytesseract.image_to_string(im)
     return texto
 
-@text.post('/submit')
+@text.post('/submit', tags=["Text"])
 async def submit_image(file: UploadFile = File(...),):
     """
     It takes an image file as input, and returns the text in the image as output
