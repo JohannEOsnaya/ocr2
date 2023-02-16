@@ -50,7 +50,7 @@ async def submit_image(file: UploadFile = File(...),):
 
         # Remove newline characters
         cleaned_text = cleaned_text.replace('\n', '')
-        tts = gTTS(text = str(cleaned_text), lang = 'es')
+        tts = gTTS(text = str(texto), lang = 'es')
         tts.save(getcwd() + '/temp.mp3')
     return str({cleaned_text, id})
 
