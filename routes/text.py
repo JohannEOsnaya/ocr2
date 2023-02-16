@@ -11,8 +11,7 @@ import io
 from typing import List
 from gtts import gTTS
 #import pyglet
-from time import sleep
-
+import re
 pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
 text = APIRouter()
@@ -44,7 +43,14 @@ async def submit_image(file: UploadFile = File(...),):
     id = conn.local.testimage.insert_one(image).inserted_id
     with Image.open(io.BytesIO(data)) as pic:
         texto = pytesseract.image_to_string(pic)
-        tts = gTTS(text = str(texto), lang = 'es')
+        pattern = r'[^a-zA-Z0-9.,\s]'
+
+        # Remove the unwanted characters using re.sub()
+        cleaned_text = re.sub(pattern, '', texto)
+
+        # Remove newline characters
+        cleaned_text = cleaned_text.replace('\n', '')
+        tts = gTTS(text = str(cleaned_text), lang = 'es')
         tts.save(getcwd() + '/temp.mp3')
     return str({texto, id})
 
