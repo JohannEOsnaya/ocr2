@@ -71,4 +71,7 @@ async def submit_images(files: List[UploadFile]):
 
 @text.get("/play_audio")
 async def play_audio():
+    """
+    Make sure to submit an image first before excecuting this part.
+    """
     return FileResponse(getcwd() + '/temp.mp3', media_type="audio/mpeg")
