@@ -43,16 +43,16 @@ async def submit_image(file: UploadFile = File(...),):
     id = conn.local.testimage.insert_one(image).inserted_id
     with Image.open(io.BytesIO(data)) as pic:
         texto = pytesseract.image_to_string(pic)
-        pattern = r'[^a-zA-Z0-9.,\s]'
+        #pattern = r'[^a-zA-Z0-9.,\s]'
 
         # Remove the unwanted characters using re.sub()
-        cleaned_text = re.sub(pattern, '', texto)
+        #cleaned_text = re.sub(pattern, '', texto)
 
         # Remove newline characters
-        cleaned_text = cleaned_text.replace('\n', '')
+        #cleaned_text = cleaned_text.replace('\n', '')
         tts = gTTS(text = str(texto), lang = 'es')
         tts.save(getcwd() + '/temp.mp3')
-    return str({cleaned_text, id})
+    return str({texto, id})
 
 @text.post('/submit_more', response_model= dict(), tags=["Text"])
 async def submit_images(files: List[UploadFile]):
